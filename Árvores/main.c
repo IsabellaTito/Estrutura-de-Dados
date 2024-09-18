@@ -74,6 +74,53 @@ struct sNODE *remover(struct sNODE *no, int dado){
 }
 
 void emOrdem(struct sNODE *no){
-   
+   if(no){
+    emOrdem(no->esq);
+    printf("%d ", no->dado);
+    emOrdem(no->dir);
+   }
+}
 
+void preOrdem(struct sNODE *no){
+    if(no){
+        printf("%d ", no->dado);
+        preOrdem(no->esq);
+        preOrdem(no->dir);
+    }
+}
+
+void posOrdem(struct sNODE *no){
+    if(no){
+        posOrdem(no->esq);
+        posOrdem(no->dir);
+        printf("%d ", no->dado);
+    }
+}
+
+struct sNODE *buscar(struct sNODE *no, int dado){
+    if(no){
+        if(no->dado == dado)
+            return dado;
+        else if(dado < no->dado)
+            return buscar(no->esq,dado);
+        else
+           return buscar(no->dir,dado);
+    }
+    return NULL;
+}
+
+int obter(struct sNODE *no){
+    if(no)
+        return no->dado;
+    printf("Nenhum dado para retornar\n");
+    exit(0);
+}
+
+struct sNODE *apagar(struct sNODE *no){
+    if(no){
+        apagar(no->esq);
+        apagar(no->dir);
+        free(no);
+    }
+    return NULL;
 }
