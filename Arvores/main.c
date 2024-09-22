@@ -12,12 +12,14 @@ void mostrarFolhas(struct sNODE *no);
 int getMAX(struct sNODE *no);
 int getMIN(struct sNODE *no);
 int distanciaDaRaiz(struct sNODE *no, int dado);
+int alturaArvore(struct sNODE *no);
+int distanciaEntre(struct sNODE *no1, int dado1, int dado2);
 
 int main(){
 
-    int l[]={14,7,25,4,9,16,28,2,10,8,15,26,30};
+    int l[]={14,7,25,4,9,16,28,2,10,8,15,26,30,1};
 
-    for(int i=0; i<13; i++)
+    for(int i=0; i<14; i++)
         raiz = inserir(raiz,l[i]);
 
     printf("Em Ordem:\n");
@@ -46,6 +48,12 @@ int main(){
 
     printf("\nDistancia da rais (14): \n");
     printf("%d", distanciaDaRaiz(raiz,14));
+
+    printf("\nAltura da Arvore: \n");
+    printf("%d", alturaArvore(raiz));
+
+    printf("\nDistancia entre 1 e 30: \n");
+    printf("%d", distanciaEntre(raiz,1,30));
 
     return 0;
 }
@@ -105,4 +113,38 @@ int distanciaDaRaiz(struct sNODE *no, int dado){
     }
     printf("Dado não encontrado!\n");
     exit(0);
+}
+
+// QUESTÃO 5
+
+int alturaArvore(struct sNODE *no){
+    if(no){
+        if(no->dir == no->esq)
+            return 0;
+        else{
+            int esq = alturaArvore(no->esq)+1, dir = alturaArvore(no->dir)+1;
+            if(esq >= dir)
+                return esq;
+            else
+                return dir;
+        }
+    }
+    return 0;
+}
+
+// QUESTÃO 6
+
+int distanciaEntre(struct sNODE *no, int dado1, int dado2){
+    if(no){
+        if(dado1 < no->dado && dado2 < no->dado){
+            return distanciaEntre(no->esq, dado1, dado2);
+        }
+        else if(dado1 > no->dado && dado2 > no->dado){
+            return distanciaEntre(no->dir, dado1, dado2);
+        }
+        else{
+            return distanciaDaRaiz(no,dado1) + distanciaDaRaiz(no,dado2);
+        }
+    }
+    return 0;
 }
